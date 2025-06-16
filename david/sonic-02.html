@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly - 超音波傳感器</title>
+  <script src="https://blocklypro.webduino.io/node_modules/jquery/dist/jquery.min.js?rev=2f6b11a7e914718e0290410e85366fe9"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js?rev=4426739c00d85325cb2d3d701fa50666"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js?rev=b1ada5fdae699e60af615c060e786d60"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js?rev=c0bfd493efd477d098a4ae9e92b13880"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js?rev=683a69503433786202911b4d9f766100"></script>
+  
+<style type="text/css">  
+  #demo-area-01-show { font-size: 60px; pointer-events: auto!important; }
+</style>
+ 
+
+</head>
+
+<body>
+<input type ="button" onclick="history.back()" value="回上一頁"></input><strong> 嵌入式系統 雲端控制元件測試</strong>
+<p>範例：在雲端顯示超音波偵測距離 (cm)，依偵測距離改變文字顏色。</p>
+<p>vcc=3.3、Trig=11、Echo=10、G=GDN、正=6、負=GDN</p>
+ <center><div id="demo-area-01-show">0</div>
+ <img name="light" src="light_off.jpg" style="width:100px;height:125px;"></center>
+</body>
+
+<script language="JavaScript">
+var ultrasonic;
+
+boardReady({device: 'nbQD'}, function (board) {
+  board.samplingInterval = 250;
+  ultrasonic = getUltrasonic(board, 11, 10);
+  ultrasonic.ping(function (cm) {
+    document.getElementById('demo-area-01-show').innerHTML = ultrasonic.distance;
+    if (ultrasonic.distance < 20) {
+      document.getElementById('demo-area-01-show').style.color = '#ff0000';
+      document.getElementById('demo-area-01-show').style.fontSize = 120 + 'px';
+	  light.src='light_on.jpg';
+    } else if (ultrasonic.distance < 40) {
+      document.getElementById('demo-area-01-show').style.color = '#ff9900';
+      document.getElementById('demo-area-01-show').style.fontSize = 100 + 'px';
+    } else if (ultrasonic.distance < 60) {
+      document.getElementById('demo-area-01-show').style.color = '#006600';
+      document.getElementById('demo-area-01-show').style.fontSize = 80 + 'px';
+    } else if (ultrasonic.distance < 80) {
+      document.getElementById('demo-area-01-show').style.color = '#cc33cc';
+      document.getElementById('demo-area-01-show').style.fontSize = 60 + 'px';
+    } else {
+      document.getElementById('demo-area-01-show').style.color = '#3366ff';
+      document.getElementById('demo-area-01-show').style.fontSize = 40 + 'px';
+	  light.src='light_off.jpg';
+    }
+  }, 500);
+});
+
+</script>
+
+
+</html>

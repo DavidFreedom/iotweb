@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly - 超音波傳感器</title>
+  <script src="https://blocklypro.webduino.io/node_modules/jquery/dist/jquery.min.js?rev=2f6b11a7e914718e0290410e85366fe9"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js?rev=4426739c00d85325cb2d3d701fa50666"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js?rev=b1ada5fdae699e60af615c060e786d60"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js?rev=c0bfd493efd477d098a4ae9e92b13880"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js?rev=683a69503433786202911b4d9f766100"></script>
+  
+<style type="text/css">  
+  #demo-area-01-show { font-size: 60px; pointer-events: auto!important; }
+</style>
+ 
+
+</head>
+
+<body>
+<input type ="button" onclick="history.back()" value="回上一頁"></input><strong> 物聯裝置應用 雲端控制元件測試</strong>
+<p>範例：在雲端顯示超音波偵測距離 (cm)，依偵測距離改變三色LED與文字顏色。</p>
+<p>
+超音波元件 vcc=vcc、Trig=11、Echo=10、G=GDN<br>
+3色LED元件 V=vcc、R=6、G=8、B=7
+</p>
+ <center>
+ <div id="demo-area-01-show">0</div>
+ <img name="light" src="light_off.jpg" style="width:100px;height:125px;">
+ </center>
+</body>
+
+<script language="JavaScript">
+var ultrasonic;
+var rgbled;
+var buzzer;
+
+function buzzer_music(m) {
+  var musicNotes = {};
+  musicNotes.notes = [];
+  musicNotes.tempos = [];
+  if (m[0].notes.length > 1) {
+    for (var i = 0; i < m.length; i++) {
+      if (Array.isArray(m[i].notes)) {
+        var cn = musicNotes.notes.concat(m[i].notes);
+        musicNotes.notes = cn;
+      } else {
+        musicNotes.notes.push(m[i].notes);
+      }
+      if (Array.isArray(m[i].tempos)) {
+        var ct = musicNotes.tempos.concat(m[i].tempos);
+        musicNotes.tempos = ct;
+      } else {
+        musicNotes.tempos.push(m[i].tempos);
+      }
+    }
+  } else {
+    musicNotes.notes = [m[0].notes];
+    musicNotes.tempos = [m[0].tempos];
+  }
+  return musicNotes;
+}
+
+
+boardReady({device: 'nbQD'}, function (board) {
+  board.samplingInterval = 2000;
+  ultrasonic = getUltrasonic(board, 11, 10);
+  rgbled = getRGBLed(board, 6, 8, 7);
+  buzzer = getBuzzer(board, 14);
+  ultrasonic.ping(function (cm) {
+    document.getElementById('demo-area-01-show').innerHTML = ultrasonic.distance;
+    if (ultrasonic.distance < 20) {
+      document.getElementById('demo-area-01-show').style.color = '#ff0000';
+      document.getElementById('demo-area-01-show').style.fontSize = 180 + 'px';
+      rgbled.setColor('#ff0000');	  
+	  buzzer.play(buzzer_music([{ notes: 'B6', tempos: '1' }]).notes ,buzzer_music([{ notes: 'B6', tempos: '1' }]).tempos );
+	  light.src='light_on.jpg';
+    } else if (ultrasonic.distance < 40) {
+      document.getElementById('demo-area-01-show').style.color = '#ffcc33';
+      document.getElementById('demo-area-01-show').style.fontSize = 150 + 'px';
+	  rgbled.setColor('#ffcc33');
+	  buzzer.play(buzzer_music([{ notes: 'A5', tempos: '1' }]).notes ,buzzer_music([{ notes: 'A6', tempos: '1' }]).tempos );
+    } else if (ultrasonic.distance < 60) {
+      document.getElementById('demo-area-01-show').style.color = '#33ffff';
+      document.getElementById('demo-area-01-show').style.fontSize = 120 + 'px';
+	  rgbled.setColor('#33ffff');
+	  buzzer.play(buzzer_music([{ notes: 'G4', tempos: '1' }]).notes ,buzzer_music([{ notes: 'G6', tempos: '1' }]).tempos );
+    } else if (ultrasonic.distance < 80) {
+      document.getElementById('demo-area-01-show').style.color = '#000099';
+      document.getElementById('demo-area-01-show').style.fontSize = 90 + 'px';
+	  rgbled.setColor('#000099');
+	  buzzer.play(buzzer_music([{ notes: 'F3', tempos: '1' }]).notes ,buzzer_music([{ notes: 'F6', tempos: '1' }]).tempos );
+    } else {
+      document.getElementById('demo-area-01-show').style.color = '#33ff33';
+      document.getElementById('demo-area-01-show').style.fontSize = 60 + 'px';
+	  rgbled.setColor('#33ff33');
+	  buzzer.play(buzzer_music([{ notes: '0', tempos: '1' }]).notes ,buzzer_music([{ notes: '0', tempos: '1' }]).tempos );
+	  light.src='light_off.jpg';
+    }
+  }, 2000);
+});
+
+</script>
+
+
+</html>

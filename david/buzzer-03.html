@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly - 按鈕</title>
+  <!-- webduino -->
+<style type="text/css">
+#show{
+  font-size:120px;
+}
+</style>
+  <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js"></script>
+<script language="JavaScript">
+
+var buzzer;
+var m1;
+var m2;
+
+
+boardReady('nbQD', function (board) {
+  board.samplingInterval = 20;
+  buzzer = getBuzzer(board, 14);
+  var m2={};
+  (function(){
+    var musicNotes = {};
+    musicNotes.notes = [];
+    musicNotes.tempos = [];
+    musicNotes.notes.push("C6");
+    musicNotes.tempos.push("8");
+    musicNotes.notes.push("D6");
+    musicNotes.tempos.push("7");
+    musicNotes.notes.push("E6");
+    musicNotes.tempos.push("6");
+    musicNotes.notes.push("F6");
+    musicNotes.tempos.push("5");
+    musicNotes.notes.push("G6");
+    musicNotes.tempos.push("4");
+    musicNotes.notes.push("A6");
+    musicNotes.tempos.push("3");
+    musicNotes.notes.push("B6");
+    musicNotes.tempos.push("2");
+    musicNotes.notes.push("C7");
+    musicNotes.tempos.push("1");
+	
+    m2.notes = musicNotes.notes;
+    m2.tempos = musicNotes.tempos;
+  })();
+
+// 音樂副程式  
+  function buzzer_music(m) {
+  var musicNotes = {};
+  musicNotes.notes = [];
+  musicNotes.tempos = [];
+  if (m[0].notes.length > 1) {
+    for (var i = 0; i < m.length; i++) {
+      if (Array.isArray(m[i].notes)) {
+        var cn = musicNotes.notes.concat(m[i].notes);
+        musicNotes.notes = cn;
+      } else {
+        musicNotes.notes.push(m[i].notes);
+      }
+      if (Array.isArray(m[i].tempos)) {
+        var ct = musicNotes.tempos.concat(m[i].tempos);
+        musicNotes.tempos = ct;
+      } else {
+        musicNotes.tempos.push(m[i].tempos);
+      }
+    }
+  } else {
+    musicNotes.notes = [m[0].notes];
+    musicNotes.tempos = [m[0].tempos];
+  }
+  return musicNotes;
+  }
+	
+  document.getElementById("demo-area-05-btn1").addEventListener("click",function(){
+    buzzer.stop();
+    buzzer.play(m1.notes, m1.tempos);
+  });
+  var m1={};
+  (function(){
+    m1.notes = ['C6','D6','E6','F6','G6','A6','B6'];
+    m1.tempos = ['8'];
+  })();
+  document.getElementById("demo-area-05-btn2").addEventListener("click",function(){
+    buzzer.stop();
+    buzzer.play(m2.notes, m2.tempos);
+  });
+  document.getElementById("demo-area-05-btn3").addEventListener("click",function(){
+    buzzer.stop();
+    buzzer.play(["E7","E7","0","E7","0","C7","E7","0","G7","0","0","0","G6","0","0","0","C7","0","0","G6","0","0","E6","0","0","A6","0","B6","0","AS6","A6","0","G6","E7","0","G7","A7","0","F7","G7","0","E7","0","C7","D7","B6","0","0","C7","0","0","G6","0","0","E6","0","0","A6","0","B6","0","AS6","A6","0","G6","E7","0","G7","A7","0","F7","G7","0","E7","0","C7","D7","B6","0","0"],["8"].notes, ["E7","E7","0","E7","0","C7","E7","0","G7","0","0","0","G6","0","0","0","C7","0","0","G6","0","0","E6","0","0","A6","0","B6","0","AS6","A6","0","G6","E7","0","G7","A7","0","F7","G7","0","E7","0","C7","D7","B6","0","0","C7","0","0","G6","0","0","E6","0","0","A6","0","B6","0","AS6","A6","0","G6","E7","0","G7","A7","0","F7","G7","0","E7","0","C7","D7","B6","0","0"],["8"].tempos);
+  });
+  document.getElementById("demo-area-05-btn4").addEventListener("click",function(){
+    buzzer.stop();
+    buzzer.play(["c4","e4","e4","0","e4","g4","g4","0","d4","f4","f4","0","a4","b4","b4","0","c4","d4","e4","c4","e4","c4","e4","0","d4","e4","f4","f4","e4","d4","f4","0","e4","f4","g4","e4","g4","e4","g4","0","f4","g4","a4","a4","g4","f4","a4","0","g4","c4","d4","e4","f4","g4","a4","0","a4","d4","e4","f4","g4","a4","b4","0","b4","e4","f4","g4","a4","b4","c5","0","c5","b4","a4","f4","b4","g4","c5"],["6"," 6"," 6","6","6 ","6 ","6 ","6","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6 ","6 ","6 "," 6"," 6"," 6"," 6","6"," 6"," 6"," 6"," 6"," 6"," 6"," 6","6"," 6"," 6"," 6"," 6","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6"].notes, ["c4","e4","e4","0","e4","g4","g4","0","d4","f4","f4","0","a4","b4","b4","0","c4","d4","e4","c4","e4","c4","e4","0","d4","e4","f4","f4","e4","d4","f4","0","e4","f4","g4","e4","g4","e4","g4","0","f4","g4","a4","a4","g4","f4","a4","0","g4","c4","d4","e4","f4","g4","a4","0","a4","d4","e4","f4","g4","a4","b4","0","b4","e4","f4","g4","a4","b4","c5","0","c5","b4","a4","f4","b4","g4","c5"],["6"," 6"," 6","6","6 ","6 ","6 ","6","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6 ","6 ","6 "," 6"," 6"," 6"," 6","6"," 6"," 6"," 6"," 6"," 6"," 6"," 6","6"," 6"," 6"," 6"," 6","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6 ","6","6 ","6 ","6 ","6 ","6 ","6 ","6"].tempos);
+  });
+  document.getElementById("demo-area-05-btn5").addEventListener("click",function(){
+    buzzer.stop();
+	buzzer.play(["C5","C5","G4","G4","A4","A4","G4","0","E4","G4","C5","A4","G4","0","0","A4","0","G4","0","E4","A4","G4","0","E4","0","G4","0","E4","D4","C4","0","E4","E4","G4","G4","A4","A4","G4","G4","0","D5","0","C5","A4","G4","A4","C5","G4","0","A4","A4","G4","A4","C5","G4","0","A4","A4","G4","A4","D5","C5"],["6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6"].notes, ["C5","C5","G4","G4","A4","A4","G4","0","E4","G4","C5","A4","G4","0","0","A4","0","G4","0","E4","A4","G4","0","E4","0","G4","0","E4","D4","C4","0","E4","E4","G4","G4","A4","A4","G4","G4","0","D5","0","C5","A4","G4","A4","C5","G4","0","A4","A4","G4","A4","C5","G4","0","A4","A4","G4","A4","D5","C5"],["6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6","6"].tempos);
+  });
+  document.getElementById("demo-area-05-btn6").addEventListener("click",function(){
+    buzzer.stop();
+	buzzer.play(buzzer_music([{ notes:['E5','E5','E5','0','E5','E5','E5','0','E5','G5','C5','D5','E5','0','F5','F5','F5','F5','F5','E5','E5','0','E5','D5','D5','E5','D5','G5','0','G4','E5','D5','C5','G4','0','G4','E5','D5','C5','A4','0','A4','F5','E5','D5','B4','0','G5','G5','F5','D5','E5','C5','0','G4','E5','D5','C5','G4','0','G4','E5','D5','C5','A4','0','A4','F5','E5','D5','G5','G5','G5','G5','A5','G5','F5','D5','C5'] , tempos:['8','8','8','8','8','8','8','8','8','8','6','8','8','6','8','8','8','8','8','8','8','6','8','8','8','8','4','8','6','8','8','8','8','5','5','8','8','8','8','5','5','8','8','8','8','5','5','8','8','8','8','5','5','5','8','8','8','8','5','5','8','8','8','8','5','5','8','8','8','8','8','8','8','8','8','8','8','8','8'] }]).notes ,buzzer_music([{ notes:['E5','E5','E5','0','E5','E5','E5','0','E5','G5','C5','D5','E5','0','F5','F5','F5','F5','F5','E5','E5','0','E5','D5','D5','E5','D5','G5','0','G4','E5','D5','C5','G4','0','G4','E5','D5','C5','A4','0','A4','F5','E5','D5','B4','0','G5','G5','F5','D5','E5','C5','0','G4','E5','D5','C5','G4','0','G4','E5','D5','C5','A4','0','A4','F5','E5','D5','G5','G5','G5','G5','A5','G5','F5','D5','C5'] , tempos:['8','8','8','8','8','8','8','8','8','8','6','8','8','6','8','8','8','8','8','8','8','6','8','8','8','8','4','8','6','8','8','8','8','5','5','8','8','8','8','5','5','8','8','8','8','5','5','8','8','8','8','5','5','5','8','8','8','8','5','5','8','8','8','8','5','5','8','8','8','8','8','8','8','8','8','8','8','8','8'] }]).tempos );  
+  });
+  document.getElementById("demo-area-05-btn9").addEventListener("click",function(){
+    buzzer.stop();
+  });
+});
+
+
+</script>
+</head>
+
+<body>
+<input type ="button" onClick="history.back()" value="回上一頁"></input><strong> 嵌入式系統 雲端控制元件測試</strong>
+<p>範例：蜂鳴器放音樂</p>
+<p>使用Mark-1內建蜂鳴器 腳位14</p>
+ <center>
+ <button id="demo-area-05-btn1" class="db5" style="width:120px;height:40px;font-size:20px;">音樂 1</button>
+ <button id="demo-area-05-btn2" class="db5" style="width:120px;height:40px;font-size:20px;">音樂 2</button>
+ <button id="demo-area-05-btn3" class="db5" style="width:120px;height:40px;font-size:20px;">超級瑪莉</button>
+ <button id="demo-area-05-btn4" class="db5" style="width:120px;height:40px;font-size:20px;">真善美</button>
+ <button id="demo-area-05-btn5" class="db5" style="width:120px;height:40px;font-size:20px;">哥哥爸爸</button>
+ <button id="demo-area-05-btn6" class="db5" style="width:120px;height:40px;font-size:20px;">聖誕鈴聲</button>
+ <button id="demo-area-05-btn9" class="db5" style="width:120px;height:40px;font-size:20px;">停止</button>
+ </center>
+</body>
+
+</html>

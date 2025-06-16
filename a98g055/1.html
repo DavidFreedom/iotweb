@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly Demo 05</title>
+  <script src="https://blocklypro.webduino.io/node_modules/jquery/dist/jquery.min.js?rev=2f6b11a7e914718e0290410e85366fe9"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js?rev=4426739c00d85325cb2d3d701fa50666"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js?rev=6e074ceb23d12d1f7cf2ec95cd5a4150"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js?rev=c0bfd493efd477d098a4ae9e92b13880"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js?rev=683a69503433786202911b4d9f766100"></script>
+  <style type="text/css">
+     .db5 {
+          font-size: 24px;
+          outline: none;
+          margin: 0 10px 10px 0;
+          pointer-events: auto!important;
+     }
+     button:hover {
+          box-shadow: 2px 2px 5px #888;
+     }
+  </style>
+</head>
+</head>
+<body>
+    <a href="./index.html">回主頁</a>
+    <p>第一頁</p>
+<div><button id="demo-area-05-btn1" class="db5">按鈕 1</button>
+    <button id="demo-area-05-btn2" class="db5">按鈕 2</button>
+    <button id="demo-area-05-btn3" class="db5">按鈕 3</button>
+    <button id="demo-area-05-btn4" class="db5">按鈕 4</button>
+    <button id="demo-area-05-btn5" class="db5">按鈕 5</button></div>
+</body>
+
+<script>
+var led;
+var buzzer;
+
+function buzzer_music(m) {
+  var musicNotes = {};
+  musicNotes.notes = [];
+  musicNotes.tempos = [];
+  if (m[0].notes.length > 1) {
+    for (var i = 0; i < m.length; i++) {
+      if (Array.isArray(m[i].notes)) {
+        var cn = musicNotes.notes.concat(m[i].notes);
+        musicNotes.notes = cn;
+      } else {
+        musicNotes.notes.push(m[i].notes);
+      }
+      if (Array.isArray(m[i].tempos)) {
+        var ct = musicNotes.tempos.concat(m[i].tempos);
+        musicNotes.tempos = ct;
+      } else {
+        musicNotes.tempos.push(m[i].tempos);
+      }
+    }
+  } else {
+    musicNotes.notes = [m[0].notes];
+    musicNotes.tempos = [m[0].tempos];
+  }
+  return musicNotes;
+}
+
+
+boardReady({device: 'g73re'}, function (board) {
+  board.samplingInterval = 250;
+  led = getLed(board, 10);
+  buzzer = getBuzzer(board, 14);
+  document.getElementById('demo-area-05-btn1').addEventListener('click',function () {
+    led.on();
+    buzzer.play(buzzer_music([{ notes:['E7','E7','0','E7','0','C7','E7','0','G7','0','0','0','G6','0','0','0','C7','0','0','G6','0','0','E6','0','0','A6','0','B6','0','AS6','A6','0','G6','E7','0','G7','A7','0','F7','G7','0','E7','0','C7','D7','B6','0','0','C7','0','0','G6','0','0','E6','0','0','A6','0','B6','0','AS6','A6','0','G6','E7','0','G7','A7','0','F7','G7','0','E7','0','C7','D7','B6','0','0'] , tempos:['8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8'] }]).notes ,buzzer_music([{ notes:['E7','E7','0','E7','0','C7','E7','0','G7','0','0','0','G6','0','0','0','C7','0','0','G6','0','0','E6','0','0','A6','0','B6','0','AS6','A6','0','G6','E7','0','G7','A7','0','F7','G7','0','E7','0','C7','D7','B6','0','0','C7','0','0','G6','0','0','E6','0','0','A6','0','B6','0','AS6','A6','0','G6','E7','0','G7','A7','0','F7','G7','0','E7','0','C7','D7','B6','0','0'] , tempos:['8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8'] }]).tempos );
+  });
+  document.getElementById('demo-area-05-btn2').addEventListener('click',function () {
+    led.off();
+    buzzer.play(buzzer_music([{ notes:['C5','C5','G4','G4','A4','A4','G4','0','E4','G4','C5','A4','G4','0','0','A4','0','G4','0','E4','A4','G4','0','E4','0','G4','0','E4','D4','C4','0','E4','E4','G4','G4','A4','A4','G4','G4','0','D5','0','C5','A4','G4','A4','C5','G4','0','A4','A4','G4','A4','C5','G4','0','A4','A4','G4','A4','D5','C5'] , tempos:['6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6'] }]).notes ,buzzer_music([{ notes:['C5','C5','G4','G4','A4','A4','G4','0','E4','G4','C5','A4','G4','0','0','A4','0','G4','0','E4','A4','G4','0','E4','0','G4','0','E4','D4','C4','0','E4','E4','G4','G4','A4','A4','G4','G4','0','D5','0','C5','A4','G4','A4','C5','G4','0','A4','A4','G4','A4','C5','G4','0','A4','A4','G4','A4','D5','C5'] , tempos:['6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6'] }]).tempos );
+  });
+});
+
+</script>
+
+</html>

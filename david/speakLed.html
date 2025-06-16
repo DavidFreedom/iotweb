@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly Demo 01</title>
+  <!-- webduino -->
+  <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+  <script src="https://webduinoio.github.io/webduino-blockly/webduino-blocklysc.js"></script>
+<script>
+var led1;
+
+
+boardReady('nbQD', function (board) {
+  board.samplingInterval = 20;
+  led1 = getLed(board, 10);
+  function speechRecognition(){
+    if (!("webkitSpeechRecognition" in window)) {
+      alert("本瀏覽器不支援語音辨識，請更換瀏覽器！(Chrome 25 版以上才支援語音辨識)");
+    } else{
+      window._recognition = new webkitSpeechRecognition();
+      window._recognition.continuous = true;
+      window._recognition.interimResults = true;
+      window._recognition.lang = "cmn-Hant-TW";
+
+      window._recognition.onstart = function() {
+        console.log("Start recognize...");
+      };
+
+      window._recognition.onend = function() {
+        console.log("Stop recognize");
+      };
+
+      window._recognition.onresult = function(event,result) {
+        result = {};
+        result.resultLength = event.results.length-1;
+        result.resultTranscript = event.results[result.resultLength][0].transcript;
+        if(event.results[result.resultLength].isFinal===false){
+          console.log(result.resultTranscript);
+            document.getElementById("demo-area-01-show").innerHTML = result.resultTranscript;
+    if(result.resultTranscript.indexOf("開燈")!==-1){
+              led1.on();
+          }
+    if(result.resultTranscript.indexOf("關燈")!==-1){
+              led1.off();
+          }
+                }else if(event.results[result.resultLength].isFinal===true){
+          console.log("final");
+        }
+      };
+      window._recognition.start();
+    }
+  }
+  speechRecognition();
+});
+
+</script>
+</head>
+
+<body>
+  <span id="demo-area-01-show">123</span>
+  <p>&nbsp;</p>
+</body>
+
+</html>

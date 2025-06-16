@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page.2</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            /* 字形 */
+            font-family: '微軟正黑體';
+            scroll-behavior: smooth;
+        }
+
+        .nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: fixed;
+            /* 調整顯示權重 */
+            z-index: 999;
+            right: 20px;
+            top: 20px;
+        }
+
+        .nav-btn {
+            float: left;
+            width: 100px;
+            height: 30px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 5px;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: #111;
+        }
+
+        .nav-btn>a {
+            text-decoration: none;
+            color: #111;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover>a {
+            color: #F7F7F7;
+        }
+
+        .fullpage {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            background-position: center;
+            position: relative;
+            /* 透明度 */
+            opacity: 0.65;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="nav">
+        <li class="nav-btn">
+            <a href="./index.html">回到首頁</a>
+        </li>
+    </ul>
+    <div id="section1" class="fullpage">
+        <div style="
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);">
+            <h1>
+                作業一 <br>
+                A98G052蕭帷隆 的Page.2
+            </h1>
+        </div>
+    </div>
+</body>
+
+</html>

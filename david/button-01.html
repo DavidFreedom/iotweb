@@ -1,0 +1,54 @@
+<html>
+
+<head>
+  <meta charset="big5">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>David 按鈕 01</title>
+  <!-- webduino -->
+
+<style type="text/css">
+#show{
+  font-size:120px;
+}
+</style>
+
+  <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+  <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script language="JavaScript">
+
+var button;
+
+
+boardReady('nbQD', function (board) {
+  /* board.systemReset(); */
+  board.samplingInterval = 20;
+  button = getButton(board, 11);
+  button.on("pressed",function(){
+    console.log("pressed");
+      document.getElementById("show").innerHTML = '按下';
+
+  });
+  button.on("released",function(){
+    console.log("released");
+      document.getElementById("show").innerHTML = '放開';
+
+  });
+  button.on("longPress",function(){
+    console.log("longPress");
+      document.getElementById("show").innerHTML = '長按';
+  });
+
+});
+</script>
+
+
+</head>
+
+<body>
+<input type ="button" onClick="history.back()" value="回上一頁"></input><strong> 物聯裝置應用 雲端控制元件測試</strong>
+<p>範例：偵測按鈕狀態</p>
+<p>空腳=3.3、上連腳=11、下連腳=電阻、GND=電阻</p>
+  <div id="show">放開</div>
+</body>
+
+</html>
